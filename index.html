@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#07111b" />
+  <meta name="description" content="AutoFleet is an interactive multi-agent warehouse robot simulator with intelligent dispatch, A* navigation, collision avoidance and real-time analytics." />
+  <meta property="og:title" content="AutoFleet · Autonomous Warehouse Fleet Simulator" />
+  <meta property="og:description" content="An interactive digital twin for multi-agent warehouse robotics." />
+  <meta property="og:image" content="assets/preview.svg" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>AutoFleet — Warehouse Fleet Simulator</title>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none"><path d="M18 3 31 10.5v15L18 33 5 25.5v-15L18 3Z" stroke="currentColor" stroke-width="1.8"/><path d="m11 22 7-12 7 12M13.5 18h9" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div><span class="brand-name">auto<span>fleet</span></span><span class="brand-caption">ROBOTICS OPERATIONS PLATFORM</span></div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-tag"><span class="muted-dot"></span> SIMULATION ENVIRONMENT <b>V 1.0</b></div>
+        <button class="icon-button" id="help-button" aria-label="About AutoFleet" title="Help and controls">?</button>
+        <a class="top-link" href="https://github.com/new" target="_blank" rel="noopener noreferrer" title="Create a GitHub repository">PUBLISH ON GITHUB <span>↗</span></a>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="heading-area">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-rule"></span> COMMAND CENTER <span class="eyebrow-slash">/</span> WAREHOUSE A-01</div>
+          <h1>Fleet operations <span>overview<span class="title-period">.</span></span></h1>
+          <p class="subtitle">Intelligent orchestration of autonomous mobile robots in real time.</p>
+        </div>
+        <div class="sim-clock"><span class="clock-label">SIMULATION UPTIME</span><div class="clock-reading" id="elapsed">00:00:00</div><span class="clock-footer"><span class="pulse-dot"></span><span id="run-state">SYSTEM STANDBY</span></span></div>
+      </div>
+
+      <section class="control-panel" aria-label="Simulator controls">
+        <div class="control-left">
+          <div class="field"><label for="scenario-select">SCENARIO</label><select id="scenario-select" aria-label="Select simulation scenario"><option value="standard">Standard operations</option><option value="rush">Peak-hour demand</option><option value="failure">Failure drill</option></select></div>
+          <div class="control-separator"></div>
+          <button class="button button-primary" id="play-button"><span id="play-icon">▶</span><span id="play-label">Start simulation</span></button>
+          <button class="button button-icon" id="step-button" aria-label="Advance simulation by one tick" title="Advance one tick">⇥</button>
+          <button class="button button-ghost" id="reset-button" title="Reset current scenario">↻ <span>Reset</span></button>
+        </div>
+        <div class="control-right">
+          <label class="speed-label" for="speed-control">SPEED <strong id="speed-value">1×</strong></label>
+          <input id="speed-control" type="range" min="1" max="4" step="1" value="1" />
+          <button class="button button-outline" id="export-button" title="Download simulation JSON report">↓ <span>Export report</span></button>
+        </div>
+      </section>
+
+      <section class="metrics-grid" aria-label="Key performance metrics">
+        <article class="metric-card"><div class="metric-head"><span>COMPLETED ORDERS</span><span class="metric-icon teal">▣</span></div><div class="metric-main"><span id="metric-completed">0</span><span class="metric-unit">orders</span></div><div class="metric-foot"><span class="positive">↗ LIVE</span><span id="metric-throughput">0 in last 50 ticks</span></div></article>
+        <article class="metric-card"><div class="metric-head"><span>ACTIVE ROBOTS</span><span class="metric-icon blue">◇</span></div><div class="metric-main"><span id="metric-active">0</span><span class="metric-unit">/ <span id="metric-total-robots">6</span> units</span></div><div class="metric-foot"><span class="positive" id="metric-utilization">0% utilization</span><span id="metric-failed">0 offline</span></div></article>
+        <article class="metric-card"><div class="metric-head"><span>AVG. FULFILLMENT</span><span class="metric-icon purple">◷</span></div><div class="metric-main"><span id="metric-delivery">—</span><span class="metric-unit">ticks</span></div><div class="metric-foot"><span>End-to-end processing</span><span class="metric-muted">TIME</span></div></article>
+        <article class="metric-card"><div class="metric-head"><span>SAFETY INTERVENTIONS</span><span class="metric-icon orange">⬡</span></div><div class="metric-main"><span id="metric-safety">0</span><span class="metric-unit">reroutes</span></div><div class="metric-foot"><span class="positive">0 collisions</span><span>hard constraint active</span></div></article>
+      </section>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-main">
+          <section class="panel warehouse-panel" aria-label="Interactive warehouse digital twin">
+            <div class="panel-heading warehouse-heading"><div><div class="panel-kicker">LIVE DIGITAL TWIN</div><h2>Warehouse floor <span class="accent-asterisk">✳</span></h2><p>Real-time agent positioning &amp; route orchestration</p></div><div class="warehouse-head-right"><span class="live-pill"><span class="live-beacon"></span><span id="map-status">STANDBY</span></span><span class="map-coordinates">27 × 19 GRID</span></div></div>
+            <div class="map-frame"><canvas id="warehouse-canvas" aria-label="Warehouse floor showing robots, warehouse storage and routes" role="img"></canvas><div class="map-corner top-left">A-01 <span>↗</span></div><div class="map-corner bottom-right">LIVE TELEMETRY <span class="live-beacon tiny"></span></div></div>
+            <div class="map-bottom"><div class="map-legend"><span><i class="legend-dot legend-teal"></i> Active AMR</span><span><i class="legend-shelf"></i> Storage racks</span><span><i class="legend-dot legend-yellow"></i> Delivery docks</span><span><i class="legend-dot legend-red"></i> Fault / offline</span></div><label class="toggle"><input id="routes-toggle" type="checkbox" checked /> Show planned paths</label></div>
+          </section>
+
+          <section class="panel performance-panel" aria-label="Operational performance"><div class="panel-heading compact"><div><div class="panel-kicker">ANALYTICS</div><h2>Fleet performance</h2></div><span class="small-muted">RECENT SIMULATION WINDOW</span></div><div class="performance-layout"><div class="throughput-chart"><div class="chart-heading"><span>ORDERS DELIVERED</span><strong id="chart-total">0 <small>total</small></strong></div><svg id="performance-chart" viewBox="0 0 600 110" preserveAspectRatio="none" role="img" aria-label="Order completion trend chart"></svg><div class="chart-labels"><span>START</span><span>SIMULATION TICKS →</span><span>NOW</span></div></div><div class="performance-stats"><div><span>DISTANCE TRAVELED</span><strong id="metric-distance">0 <small>cells</small></strong></div><div><span>AVG. ROBOT BATTERY</span><strong id="metric-battery">— <small>%</small></strong></div><div><span>FLEET MESSAGES</span><strong id="metric-messages">0 <small>tx</small></strong></div></div></div></section>
+        </div>
+
+        <aside class="dashboard-side">
+          <section class="panel fleet-panel" aria-label="Robot fleet status"><div class="panel-heading compact"><div><div class="panel-kicker">CONNECTED AGENTS</div><h2>Robot fleet <span class="count-pill" id="fleet-count">6</span></h2></div><span class="connection-light" title="Connected">●</span></div><div class="fleet-list" id="fleet-list"></div><div class="fleet-actions"><button class="button button-danger" id="fail-button">⚡ Inject failure</button><button class="button button-minimal" id="recover-button">↻ Recover</button></div><div class="robot-detail" id="robot-detail">Select a robot to inspect its assigned mission.</div></section>
+          <section class="panel orders-panel" aria-label="Dispatch order queue"><div class="panel-heading compact"><div><div class="panel-kicker">TASK SCHEDULER</div><h2>Order dispatch <span class="count-pill" id="queue-count">0</span></h2></div><button class="small-add" id="add-task-button" title="Add a warehouse order">+ Add</button></div><div class="order-summary"><div><span id="orders-queued">0</span><small>QUEUED</small></div><div><span id="orders-progress">0</span><small>IN PROGRESS</small></div><div><span id="orders-completed">0</span><small>DELIVERED</small></div></div><div class="orders-list" id="orders-list"></div></section>
+        </aside>
+      </div>
+
+      <section class="panel communication-panel" aria-label="Inter-robot communication log"><div class="panel-heading compact"><div><div class="panel-kicker">MESH NETWORK / EVENT BUS</div><h2>Fleet communications</h2><p>Task handoffs, route negotiations, heartbeats &amp; fault alerts</p></div><div class="protocol-tag"><span class="protocol-dot"></span> TELEMETRY ONLINE</div></div><div class="event-header"><span>SIM TIME</span><span>EVENT</span><span>FROM → TO</span><span>MESSAGE</span></div><div class="event-list" id="event-list"></div></section>
+
+      <footer class="footer"><span>© 2026 AUTO<span>FLEET</span> / MULTI-AGENT ROBOTICS LAB</span><span>DETERMINISTIC SIMULATION <i>•</i> A* PATH PLANNING <i>•</i> DISTRIBUTED MESSAGING</span><span>BUILT FOR EXPLORATION <b>↗</b></span></footer>
+    </main>
+  </div>
+  <dialog id="help-dialog"><div class="dialog-top"><div class="panel-kicker">DOCUMENTATION / QUICK START</div><button class="dialog-close" id="help-close" aria-label="Close">×</button></div><h2>Welcome to AutoFleet.</h2><p>AutoFleet simulates a fleet of autonomous mobile robots inside a warehouse. Every tick, agents compete for pick-and-deliver jobs, plan routes using A*, and negotiate safe movement.</p><div class="help-grid"><div><strong>▶ Start / Pause</strong><p>Run the simulation continuously. Speed changes how quickly ticks advance.</p></div><div><strong>⇥ Single-step</strong><p>Advance one discrete tick while paused to inspect decisions.</p></div><div><strong>⚡ Inject failure</strong><p>Take a robot offline. Its job returns to the task queue and other robots route around it.</p></div><div><strong>+ Add order</strong><p>Add a new job, then watch the dispatcher select the closest eligible robot.</p></div><div><strong>▤ Select a robot</strong><p>Click a robot on the floor map or in the fleet list to see its mission and battery.</p></div><div><strong>↓ Export report</strong><p>Download a JSON report with per-robot metrics and the full task history.</p></div></div><p class="dialog-note">The safety controller forbids entering occupied cells, preventing vertex collisions and head-on swaps. This is a simulation, not production robot control software.</p></dialog>
+  <div class="toast-container" aria-live="polite" id="toast"></div>
+  <script type="module" src="src/app.mjs"></script>
+</body>
+</html>

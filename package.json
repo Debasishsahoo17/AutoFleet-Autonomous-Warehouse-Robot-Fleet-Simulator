@@ -1,0 +1,14 @@
+{
+  "name": "autofleet-warehouse-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive multi-agent autonomous warehouse fleet simulator with A* routing, dynamic collision avoidance, task auctions, failures, and telemetry.",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}
